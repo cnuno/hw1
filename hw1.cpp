@@ -58,6 +58,7 @@ char st[5][15] = {{"Requirements"},
 	{"Coding"},
 	{"Testing"},
 	{"Maintenance"}};
+
 //Structures
 
 struct Vec {
@@ -104,7 +105,7 @@ int main(void)
 	Game game;
 	game.n=0;
 
-	//declare a box shape
+	//declare shapes
 	game.box[0].width = 100;
 	game.box[0].height = 10;
 	game.box[0].center.x = 100;
@@ -125,7 +126,6 @@ int main(void)
 	game.box[4].height = 10;
 	game.box[4].center.x = 500;
 	game.box[4].center.y = 150;
-
 	game.circle.radius = 150;
 	game.circle.center.x = 700;
 	game.circle.center.y = -50;
@@ -288,7 +288,7 @@ void movement(Game *game)
 
 	if (game->bubbler!=0){
 		for(int i=0; i<10; i++){
-		makeParticle(game, game->mouse[0], game->mouse[1]);
+			makeParticle(game, game->mouse[0], game->mouse[1]);
 		}
 	}
 
@@ -299,7 +299,7 @@ void movement(Game *game)
 		p->s.center.y += p->velocity.y;
 		//check for collision with shapes...
 		Shape *s;
-		for(int j=0; j<MAX_BOXES; j++) {
+		for (int j=0; j<MAX_BOXES; j++) {
 			s = &game->box[j];
 			if (p->s.center.y < s->center.y + s->height &&
 					p->s.center.x <= s->center.x + s->width &&
@@ -326,7 +326,7 @@ void render(Game *game)
 
 	//draw box
 	Shape *s [MAX_BOXES];
-	for(int i=0; i<MAX_BOXES; i++) {
+	for (int i=0; i<MAX_BOXES; i++) {
 		glColor3ub(90,140,90);
 		s[i] = &game->box[i];
 		glPushMatrix();
@@ -352,6 +352,7 @@ void render(Game *game)
 		ggprint13(&r, 20, color, "%s",temp);
 	}
 
+    //draw circle
 	Shape *c;
 	c = &game->circle;
 
@@ -366,15 +367,13 @@ void render(Game *game)
 	for (int i = 0; i < 100; i++)   {
 		glVertex2f (
 				(x + (radius * cos(i * twicePi / 100))),
-			   	(y + (radius * sin(i * twicePi / 100)))
+				(y + (radius * sin(i * twicePi / 100)))
 				);
 	}
 	glEnd();
 
-
-
 	//draw all particles here
-	for(int i=0; i<game->n; i++) {
+	for (int i=0; i<game->n; i++) {
 		glPushMatrix();
 		glColor3ub(150,160,220);
 		Vec *c = &game->particle[i].s.center;
